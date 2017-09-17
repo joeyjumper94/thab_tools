@@ -18,7 +18,7 @@ These thresholds and actions are configurable through cvars:
 
 	lagdet_range		- if the difference between SysTime and CurTime exceeds this value in a frame, we have detected frame lag and the system increments the lag counter. Default is 0.07
 	lagdet_count		- if the lag counter reaches this value, we have detected server lag and we execute lagdet_execute. Default is 5
-	lagdet_quiet		- indicates how long we must go (in seconds) with no frame lag before our lag counter resets to 0. 
+	lagdet_quiet		- indicates how long we must go (in seconds) with no frame lag before our lag counter resets to 0.
 	lagdet_execute		- the console command(s) to execute if we detect server lag. Default is a simple say
 	lagcount_meltdown	- if we detect this many frame lags without a reset, we execute lagexecute_meltdown. Default is 100
 	lagexecute_meltdown	- these console command(s) are executed in the event of massive lag.  Server is probably in a collision loop or something. Good time to restart the map. Default is a simple say
@@ -55,17 +55,17 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ]]
 
-local lagrange = CreateConVar( "lagdet_range", "0.07", { FCVAR_SERVER_CAN_EXECUTE } )
-local lagcount = CreateConVar( "lagdet_count", "5", { FCVAR_SERVER_CAN_EXECUTE } )
-local lagquiet = CreateConVar( "lagdet_quiet", "15", { FCVAR_SERVER_CAN_EXECUTE } )
-local lagverbose = CreateConVar( "lagdet_verbose", "0", { FCVAR_SERVER_CAN_EXECUTE } )
+local lagrange = CreateConVar( "lagdet_range", "0.07", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "if the difference between SysTime and CurTime exceeds this value in a frame, we have detected frame lag and the system increments the lag counter" )
+local lagcount = CreateConVar( "lagdet_count", "5", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "if the lag counter reaches this value, we have detected server lag and we execute lagdet_execute" )
+local lagquiet = CreateConVar( "lagdet_quiet", "15", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "indicates how long we must go (in seconds) with no frame lag before our lag counter resets to 0. " )
+local lagverbose = CreateConVar( "lagdet_verbose", "0", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "" )
 
-local lagexecute = CreateConVar( "lagdet_execute", "say [LAGDETECTOR] Server is currently detecting measureable lag.", { FCVAR_SERVER_CAN_EXECUTE } )
---local lagexecute = CreateConVar( "lagdet_execute", "ulx consay [LAGDETECTOR] Server is currently detecting measureable lag.", { FCVAR_SERVER_CAN_EXECUTE } )
+local lagexecute = CreateConVar( "lagdet_execute", "say [LAGDETECTOR] Server is currently detecting measureable lag.", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "the console command(s) to execute if we detect server lag." )
+--local lagexecute = CreateConVar( "lagdet_execute", "ulx consay [LAGDETECTOR] Server is currently detecting measureable lag.", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "" )
 
-local lagcount_meltdown = CreateConVar( "lagcount_meltdown", "100", { FCVAR_SERVER_CAN_EXECUTE } )
-local lagexecute_meltdown = CreateConVar( "lagexecute_meltdown", "say [LAGDETECTOR] The server appears to having difficulties, Captain!", { FCVAR_SERVER_CAN_EXECUTE } )
---local lagexecute_meltdown = CreateConVar( "lagexecute_meltdown", "ulx maprestart", { FCVAR_SERVER_CAN_EXECUTE } )
+local lagcount_meltdown = CreateConVar( "lagcount_meltdown", "100", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "if we detect this many frame lags without a reset, we execute lagexecute_meltdown." )
+local lagexecute_meltdown = CreateConVar( "lagexecute_meltdown", "say [LAGDETECTOR] The server appears to having difficulties, Captain!", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "these console command(s) are executed in the event of massive lag." )
+--local lagexecute_meltdown = CreateConVar( "lagexecute_meltdown", "ulx maprestart", {FCVAR_ARCHIVE, FCVAR_SERVER_CAN_EXECUTE}, "" )
 
 
 
